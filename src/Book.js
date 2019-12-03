@@ -2,15 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Book(props) {
-    const {thumbnail, title, shelf, bookshelves, handleChange} = props,
+    const {
+        id,
+        thumbnail, 
+        title, 
+        shelf, 
+        bookshelves, 
+        handleChange
+    } = props,
     authors = props.authors.join('\n');
+
+    const changeBookshelf = (e) => {
+        e.preventDefault();
+        handleChange(id, e.currentTarget.value);
+    }
 
     return (
         <div className="book">
             <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${thumbnail})` }}></div>
             <div className="book-shelf-changer">
-                <select defaultValue={shelf} onChange={handleChange}>
+                <select defaultValue={shelf} onChange={changeBookshelf}>
                     <option value="move" disabled>Move to...</option>
                         {
                             bookshelves.map((shelf)=>(
@@ -28,6 +40,7 @@ function Book(props) {
 }
 
 Book.propTypes = {
+    id: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,

@@ -5,6 +5,14 @@ import Bookshelf from './Bookshelf';
 
 
 class BooksApp extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.updateBookshelf = this.updateBookshelf.bind(this);
+    this.fetchAllBooks = this.fetchAllBooks.bind(this);
+  }
+
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -30,7 +38,7 @@ class BooksApp extends React.Component {
     ]
   }
 
-  componentDidMount() {
+  fetchAllBooks() {
     BooksAPI.getAll().then((data) => {
       this.setState({
         books: data
@@ -38,8 +46,17 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateBookshelf() {
-    console.log('change!')
+  componentDidMount() {
+    this.fetchAllBooks();
+    
+  }
+
+  updateBookshelf(book, id) {
+    BooksAPI.update(book, id).then((data) => {
+      BooksAPI.getAll().then((data) => {
+        console.log(data)
+      })
+    });
   }
 
   render() {

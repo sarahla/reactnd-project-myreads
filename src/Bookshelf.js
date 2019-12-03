@@ -13,7 +13,8 @@ function Shelf(props) {
                     {
                         books.map((book) => (
                             <li key={book.id}>
-                                <Book 
+                                <Book
+                                    id={book.id}
                                     thumbnail={book.imageLinks.smallThumbnail} 
                                     title={book.title} 
                                     authors={book.authors} 
