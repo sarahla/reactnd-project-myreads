@@ -48,14 +48,11 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     this.fetchAllBooks();
-    
   }
 
   updateBookshelf(book, id) {
-    BooksAPI.update(book, id).then((data) => {
-      BooksAPI.getAll().then((data) => {
-        console.log(data)
-      })
+    BooksAPI.update(book, id).then(() => {
+      this.fetchAllBooks();
     });
   }
 

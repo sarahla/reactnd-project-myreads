@@ -14,7 +14,7 @@ function Book(props) {
 
     const changeBookshelf = (e) => {
         e.preventDefault();
-        handleChange(id, e.currentTarget.value);
+        handleChange({id: id}, e.currentTarget.value);
     }
 
     return (
