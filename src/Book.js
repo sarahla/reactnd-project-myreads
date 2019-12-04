@@ -10,7 +10,7 @@ function Book(props) {
         bookshelves, 
         handleChange
     } = props,
-    authors = props.authors.join('\n');
+    authors = props.authors ? props.authors.join('\n') : '';
 
     const changeBookshelf = (e) => {
         e.preventDefault();
@@ -45,7 +45,7 @@ Book.propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
     authors: PropTypes.array.isRequired,
-    shelf: PropTypes.string.isRequired,
+    shelf: PropTypes.string,
     handleChange: PropTypes.func.isRequired
 }
 
