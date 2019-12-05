@@ -10,9 +10,9 @@ function Book(props) {
         bookshelves, 
         handleChange
     } = props,
-    authors = props.authors ? props.authors.join('\n') : '';
+    authors = props.authors ? props.authors.join('\n') : '',
 
-    const changeBookshelf = (e) => {
+    changeBookshelf = (e) => {
         e.preventDefault();
         handleChange({id: id}, e.currentTarget.value);
     }

@@ -10,34 +10,27 @@ import './App.css'
 import Bookshelf from './Bookshelf';
 import SearchBooks from './SearchBooks';
 
+const bookshelves = [
+  {
+    id: 'currentlyReading',
+    name: 'Currently Reading'
+  },
+  {
+    id: 'wantToRead',
+    name: 'Want to Read'
+  },
+  {
+    id: 'read',
+    name: 'Read'
+  }
+]
 
 class BooksApp extends React.Component {
-
-  constructor(props){
-    super(props);
-    this.updateBookshelf = this.updateBookshelf.bind(this);
-    this.fetchAllBooks = this.fetchAllBooks.bind(this);
-  }
-
   state = {
-    books: [],
-    bookshelves: [
-      {
-        id: 'currentlyReading',
-        name: 'Currently Reading'
-      },
-      {
-        id: 'wantToRead',
-        name: 'Want to Read'
-      },
-      {
-        id: 'read',
-        name: 'Read'
-      }
-    ]
+    books: []
   }
 
-  fetchAllBooks() {
+  fetchAllBooks = () => {
     BooksAPI.getAll().then((data) => {
       this.setState({
         books: data
@@ -45,8 +38,8 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateBookshelf(book, id) {
-    BooksAPI.update(book, id).then(() => {
+  updateBookshelf = (book, id) => {
+    BooksAPI.update(book, id).then((data) => {
       this.fetchAllBooks();
     });
   }
@@ -61,7 +54,7 @@ class BooksApp extends React.Component {
         <div className="app">
           <Switch>
             <Route path="/search">
-              <SearchBooks bookshelves={this.state.bookshelves} handleChange={this.updateBookshelf} />
+              <SearchBooks savedBooks={this.state.books} bookshelves={bookshelves} handleChange={this.updateBookshelf} />
             </Route>
             <Route path="/" exact>
               <div className="list-books">
@@ -71,13 +64,13 @@ class BooksApp extends React.Component {
                 <div className="list-books-content">
                   <div>
                     {
-                      this.state.bookshelves.map((bookshelf) => (
+                      bookshelves.map((bookshelf) => (
                         <Bookshelf 
                           key={bookshelf.id} 
                           id={bookshelf.id} 
                           name={bookshelf.name} 
                           books={this.state.books}
-                          bookshelves={this.state.bookshelves}
+                          bookshelves={bookshelves}
                           handleChange={this.updateBookshelf}
                         />
                       ))

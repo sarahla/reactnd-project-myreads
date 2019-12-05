@@ -17,7 +17,7 @@ class SearchBooks extends Component {
                 if (Array.isArray(data)) {
                     this.setState({
                         searchResults: data
-                    }, console.log(this.state))
+                    })
                 }
             })
         } else {
@@ -28,7 +28,7 @@ class SearchBooks extends Component {
     }
 
     render() {
-        const { bookshelves, handleChange } = this.props;
+        const { bookshelves, handleChange, savedBooks } = this.props;
         return(
             <div className="search-books">
                 <div className="search-books-bar">
@@ -39,18 +39,19 @@ class SearchBooks extends Component {
                     <ol className="books-grid">
                         {
                             this.state.searchResults.map((book) => {
+                                const saved = savedBooks.find((savedBook) => savedBook.id === book.id);
                                 return(
-                                <li key={book.id}>
-                                    <Book
-                                        id={book.id}
-                                        thumbnail={book.imageLinks && book.imageLinks.smallThumbnail} 
-                                        title={book.title} 
-                                        authors={book.authors} 
-                                        shelf={book.shelf}
-                                        bookshelves={bookshelves}
-                                        handleChange={handleChange}
-                                    />
-                                </li>
+                                    <li key={book.id}>
+                                        <Book
+                                            id={book.id}
+                                            thumbnail={book.imageLinks && book.imageLinks.smallThumbnail} 
+                                            title={book.title} 
+                                            authors={book.authors ? book.authors : []} 
+                                            shelf={saved ? saved.shelf : 'none'}
+                                            bookshelves={bookshelves}
+                                            handleChange={handleChange}
+                                        />
+                                    </li>
                                 )
                             })
                         }
@@ -62,7 +63,9 @@ class SearchBooks extends Component {
 }
 
 SearchBooks.propTypes = {
-
+    bookshelves: PropTypes.array.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    savedBooks: PropTypes.array.isRequired 
 }
 
 export default SearchBooks;
